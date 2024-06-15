@@ -52,7 +52,7 @@ To run this project locally, follow these steps:
 5. **Run the Streamlit app:**
 
    ```sh
-   streamlit run app.py
+   streamlit run Home.py
    ```
 
 6. Open your web browser and go to `http://localhost:8501` to view the app.

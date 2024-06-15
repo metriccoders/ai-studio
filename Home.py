@@ -6,7 +6,6 @@ from sklearn.model_selection import train_test_split
 
 st.title("SKLearn Studio by Metric Coders")
 
-st.sidebar.title("ML Algorithms")
 
 dataset = load_iris()
 X = dataset.data
