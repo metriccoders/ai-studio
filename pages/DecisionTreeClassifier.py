@@ -4,7 +4,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
-st.title("SKLearn Studio by Metric Coders")
+st.title("AI Studio by Metric Coders")
 
 
 dataset = load_iris()
