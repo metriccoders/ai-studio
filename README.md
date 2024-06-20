@@ -1,7 +1,7 @@
 
 # SKLearn Studio
 
-This repository provides a user-friendly web interface for exploring and using scikit-learn (sklearn) machine learning models. The UI is built using [Streamlit](https://streamlit.io/), making it easy to visualize data, train models, and evaluate their performance without writing any code.
+This repository provides a user-friendly web interface for exploring and using scikit-learn (sklearn) machine learning models. The UI is built using [Streamlit](https://streamlit.io/), making it easy to visualize data, train models, and evaluate their performance without writing any code. It is avaiable as [AI Studio](https://metriccoders-sklearn-studio-home-zegcs8.streamlit.app/).
 
 ## Features
 
