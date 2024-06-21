@@ -13,7 +13,7 @@ This repository provides a user-friendly web interface for exploring and using s
 
 ## Demo
 
-You can check out the live demo https://sklearnstudio.streamlit.app/ (link to the deployed Streamlit app).
+You can check out the live demo here: [AI Studio](https://metriccoders-sklearn-studio-home-zegcs8.streamlit.app/) (link to the deployed Streamlit app).
 
 ## Installation
 
