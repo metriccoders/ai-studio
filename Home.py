@@ -12,7 +12,6 @@ from sklearn.model_selection import train_test_split
 
 st.markdown("<center><h1>Artificial Intelligence Studio</h1></center>", unsafe_allow_html=True)
 #st.lottie("https://lottie.host/f9ecc8cd-9a0e-49f5-bfbe-89bb59ca794b/Qnv20SfUVi.json", height=50, width=50, quality="high")
-
 st.markdown("<center><h4><b>By Metric Coders</b></h4></center>", unsafe_allow_html=True)
 
 dataset = load_iris()
@@ -21,7 +20,7 @@ ml_algorithm = st.selectbox("ML Algorithm", ["AdaBoost Classifier",
                                              "Bagging Classifier",
                                              "BernoulliNB",
                                              "Calibrated Classifier CV",
-                                             "Decision TreeClassifier",
+                                             "Decision Tree Classifier",
                                              "Extra Trees Classifier",
                                              "Gradient Boosting Classifier",
                                              "KNeighbors Classifier",
@@ -86,7 +85,7 @@ elif ml_algorithm == "Bagging Classifier":
     bootstrap = col1.selectbox("bootstrap", [True, False], index=0)
     bootstrap_features = col1.selectbox("bootstrap_features", [True, False], index=0)
     oob_score = col1.selectbox("oob_score", [True, False], index=0)
-    warm_start = col1.selectbox("warm_start", [True, False], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=1)
     n_jobs = col1.slider("n_jobs", min_value=1, max_value=10, value=1, step=1)
     random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
 
