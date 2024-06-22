@@ -2,3 +2,4 @@ streamlit
 scikit-learn
 numpy
 scipy
+streamlit-lottie
