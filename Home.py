@@ -13,7 +13,6 @@ from sklearn.model_selection import train_test_split
 st.markdown("<center><h1>Artificial Intelligence Studio</h1></center>", unsafe_allow_html=True)
 #st.lottie("https://lottie.host/f9ecc8cd-9a0e-49f5-bfbe-89bb59ca794b/Qnv20SfUVi.json", height=50, width=50, quality="high")
 st.markdown("<center><h4><b>By Metric Coders</b></h4></center>", unsafe_allow_html=True)
-
 dataset = load_iris()
 clf = AdaBoostClassifier
 ml_algorithm = st.selectbox("ML Algorithm", ["AdaBoost Classifier",
