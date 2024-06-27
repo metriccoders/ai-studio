@@ -91,7 +91,7 @@ feature1,feature2,feature3,target
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ## Contact
-For questions, feedback, or support, please contact the Metric Coders team via email at info@metriccoders.com.
+For questions, feedback, or support, please contact me via email at info@metriccoders.com.
 
 ---
 
