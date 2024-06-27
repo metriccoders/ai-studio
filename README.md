@@ -44,13 +44,38 @@ This will launch the AI Studio web UI. Open your web browser and navigate to the
 
 ## Usage
 ### Creating a Model
-1. **Select a Dataset**: Choose from a variety of preloaded datasets.
+1. **Select a Dataset**: Choose from a variety of preloaded datasets or load your own datasets.
 2. **Choose an Algorithm**: Select the machine learning algorithm you wish to use (e.g., linear regression, decision trees, etc.).
 3. **Set Hyperparameters**: Configure the hyperparameters for your chosen algorithm.
 4. **Train the Model**: Click the "Train" button to build and train your model.
 
 ### Evaluating a Model
 After training, AI Studio provides performance metrics and visualizations to help you evaluate the effectiveness of your model. Use these insights to refine your model by adjusting hyperparameters or selecting different algorithms.
+
+### Loading Own Datasets
+The datasets should have headers and the column by the name 'target' should contain the output/result. A sample is given below:
+
+feature1,feature2,feature3,target
+
+1,2,3,0
+
+2,3,4,0
+
+3,4,5,1
+
+4,5,6,1
+
+5,6,7,0
+
+6,7,8,1
+
+7,8,9,0
+
+8,9,10,1
+
+9,10,11,1
+
+10,11,12,0
 
 ## Contributing
 Contributions are welcome! If you have suggestions for improvements or have identified issues, please open an issue or submit a pull request. Follow the guidelines in `CONTRIBUTING.md` to get started.
