@@ -8,8 +8,8 @@
 Here is how the webpage looks when pre-trained datasets are loaded
 ![Pre-trained Datasets](readme_images/metrics.png)
 
-Here is how the homepage looks when a custom dataset is to be loaded
-![Homepage](readme_images/homepage.png)
+Here is how the homepage looks when a custom dataset is loaded
+![Dataset](readme_images/dataset_load.png)
 
 
 ## Features
