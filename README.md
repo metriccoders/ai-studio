@@ -9,9 +9,9 @@
 - **Hyperparameter Tuning**: Adjust and experiment with different hyperparameters to optimize model performance.
 - **Preloaded Datasets**: Access to a variety of datasets provided by scikit-learn, facilitating immediate experimentation and learning.
 - **Model Export**: Functionality to export trained models for deployment and further use.
+- **Custom Datasets**: Users can upload and use their own datasets for model training.
 
 ### Upcoming Features
-- **Custom Datasets**: Users will soon be able to upload and use their own datasets for model training.
 - **Data Cleaning and Preprocessing**: Tools for data cleaning and preprocessing will be integrated to prepare datasets for model training.
 - **Support for LLMs**: Expansion to include large language models (LLMs), broadening the scope of the platform to natural language processing tasks.
 

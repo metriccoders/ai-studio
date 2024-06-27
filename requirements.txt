@@ -3,3 +3,4 @@ scikit-learn
 numpy
 scipy
 streamlit-lottie
+pandas

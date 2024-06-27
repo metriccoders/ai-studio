@@ -36,6 +36,7 @@ from sklearn.mixture import GaussianMixture
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, roc_auc_score, confusion_matrix, hamming_loss, jaccard_score, log_loss, matthews_corrcoef, balanced_accuracy_score, precision_recall_curve, roc_curve, zero_one_loss
 from sklearn.model_selection import train_test_split
 import io
+import pandas as pd
 
 
 st.markdown("<center><h1>Artificial Intelligence (AI) Studio</h1></center>", unsafe_allow_html=True)
@@ -43,8 +44,34 @@ st.markdown("<center><h1>Artificial Intelligence (AI) Studio</h1></center>", uns
 st.markdown("<center><h4><b>By Metric Coders</b></h4></center>", unsafe_allow_html=True)
 dataset = load_iris()
 clf = AdaBoostClassifier
+X = None
+y = None
 
-dataset_option = st.selectbox("Dataset", ["Iris", "Digits", "Wine", "Breast Cancer"], index=0)
+own_dataset = st.checkbox(label="Load Own Dataset (The CSV file should have the header by the name 'target' as the result column)", value=False)
+if own_dataset:
+    uploaded_file = st.file_uploader("Upload Training Data in a CSV file", type="csv")
+    if uploaded_file is not None:
+        data = pd.read_csv(uploaded_file)
+
+        st.write("Preview of Dataset")
+        st.write(data.head())
+
+        X = data.drop("target", axis=1)
+        y = data["target"]
+else:
+    dataset_option = st.selectbox("Dataset", ["Iris", "Digits", "Wine", "Breast Cancer"], index=0)
+    if dataset_option == "Iris":
+        dataset = load_iris()
+    elif dataset_option == "Digits":
+        dataset = load_digits()
+    elif dataset_option == "Wine":
+        dataset = load_wine()
+    elif dataset_option == "Breast Cancer":
+        dataset = load_breast_cancer()
+    X = dataset.data
+    y = dataset.target
+
+
 
 ml_algorithm = st.selectbox("ML Algorithm", ["AdaBoost Classifier",
                                              "Bagging Classifier",
@@ -84,26 +111,6 @@ ml_algorithm = st.selectbox("ML Algorithm", ["AdaBoost Classifier",
                                              "SVC",
                                              "Gaussian Mixture",
                                              ], index=0)
-
-
-X = dataset.data
-y = dataset.target
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-if dataset_option == "Iris":
-    dataset = load_iris()
-elif dataset_option == "Digits":
-    dataset = load_digits()
-elif dataset_option == "Wine":
-    dataset = load_wine()
-elif dataset_option == "Breast Cancer":
-    dataset = load_breast_cancer()
-
-
-X = dataset.data
-y = dataset.target
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 col1, col2 = st.columns(2)
 
@@ -682,42 +689,45 @@ elif ml_algorithm == "Gaussian Mixture":
         warm_start=warm_start
     )
 
-clf.fit(X_train, y_train)
-model_buffer = io.BytesIO()
-joblib.dump(clf, model_buffer)
-model_buffer.seek(0)
-y_pred = clf.predict(X_test)
+if X is not None and y is not None:
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    clf.fit(X_train, y_train)
+    model_buffer = io.BytesIO()
+    joblib.dump(clf, model_buffer)
+    model_buffer.seek(0)
+    y_pred = clf.predict(X_test)
 
 
-col2.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
-col2.download_button(
-    label="Download Model",
-    data = model_buffer,
-    file_name="model.joblib",
-    mime="application/octet-stream"
-)
-col2.markdown(f"<b>Accuracy:</b> {accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
-col2.markdown(f"<b>Precision - Micro:</b> {precision_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
-col2.markdown(f"<b>Recall - Micro: </b> {recall_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
-col2.markdown(f"<b>F1 Score - Micro: </b> {f1_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
-col2.markdown(f"<b>Precision - Macro:</b> {precision_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
-col2.markdown(f"<b>Recall - Macro:</b> {recall_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
-col2.markdown(f"<b>F1 Score - Macro:</b> {f1_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
-col2.markdown(f"<b>Precision - Weighted: </b> {precision_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
-col2.markdown(f"<b>Recall - Weighted:</b> {recall_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
-col2.markdown(f"<b>F1 Score - Weighted: </b> {f1_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
-col2.markdown(f"<b>Classification Report:</b> {classification_report(y_test, y_pred)}", unsafe_allow_html=True)
-#col2.text(f"ROC AUC Score - OVR: {roc_auc_score(y_test, y_pred, multi_class='ovr')}")
-#col2.text(f"ROC AUC Score - OVO: {roc_auc_score(y_test, y_pred, multi_class='ovo')}")
-col2.markdown(f"<b>Confusion Matrix:</b> {confusion_matrix(y_test, y_pred)}", unsafe_allow_html=True)
-col2.markdown(f"<b>Hamming Loss: </b> {hamming_loss(y_test, y_pred)}", unsafe_allow_html=True)
-col2.markdown(f"<b>Jaccard Similarity Score: </b> {jaccard_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
-#col2.text(f"Log Loss: {log_loss(y_test, y_pred)}")
-col2.markdown(f"<b>Matthews Correlation Coefficient: </b> {matthews_corrcoef(y_test, y_pred)}", unsafe_allow_html=True)
-col2.markdown(f"<b>Balanced Accuracy:</b> {balanced_accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
-#col2.text(f"Precision-Recall Curve: {precision_recall_curve(y_test, y_pred)}")
-#col2.text(f"ROC Curve: {roc_curve(y_test, y_pred)}")
-col2.markdown(f"<b>Zero-One Loss:</b> {zero_one_loss(y_test, y_pred)}", unsafe_allow_html=True)
+    col2.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
+    col2.download_button(
+        label="Download Model",
+        data = model_buffer,
+        file_name="model.joblib",
+        mime="application/octet-stream"
+    )
+    col2.markdown(f"<b>Accuracy:</b> {accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Precision - Micro:</b> {precision_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Recall - Micro: </b> {recall_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>F1 Score - Micro: </b> {f1_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Precision - Macro:</b> {precision_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Recall - Macro:</b> {recall_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>F1 Score - Macro:</b> {f1_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Precision - Weighted: </b> {precision_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Recall - Weighted:</b> {recall_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>F1 Score - Weighted: </b> {f1_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Classification Report:</b> {classification_report(y_test, y_pred)}", unsafe_allow_html=True)
+    #col2.text(f"ROC AUC Score - OVR: {roc_auc_score(y_test, y_pred, multi_class='ovr')}")
+    #col2.text(f"ROC AUC Score - OVO: {roc_auc_score(y_test, y_pred, multi_class='ovo')}")
+    col2.markdown(f"<b>Confusion Matrix:</b> {confusion_matrix(y_test, y_pred)}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Hamming Loss: </b> {hamming_loss(y_test, y_pred)}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Jaccard Similarity Score: </b> {jaccard_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
+    #col2.text(f"Log Loss: {log_loss(y_test, y_pred)}")
+    col2.markdown(f"<b>Matthews Correlation Coefficient: </b> {matthews_corrcoef(y_test, y_pred)}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Balanced Accuracy:</b> {balanced_accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
+    #col2.text(f"Precision-Recall Curve: {precision_recall_curve(y_test, y_pred)}")
+    #col2.text(f"ROC Curve: {roc_curve(y_test, y_pred)}")
+    col2.markdown(f"<b>Zero-One Loss:</b> {zero_one_loss(y_test, y_pred)}", unsafe_allow_html=True)
 
 
 
