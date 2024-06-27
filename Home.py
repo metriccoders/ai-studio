@@ -1,5 +1,6 @@
 import streamlit as st
-from streamlit_lottie import st_lottie
+import joblib
+#from streamlit_lottie import st_lottie
 from sklearn.datasets import load_iris, load_digits, load_wine, load_breast_cancer
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, BaggingClassifier, GradientBoostingClassifier, ExtraTreesClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -7,6 +8,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.tree import ExtraTreeClassifier
 from sklearn.svm import OneClassSVM
+from sklearn.naive_bayes import BernoulliNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import RadiusNeighborsClassifier
 from sklearn.multioutput import ClassifierChain
@@ -31,9 +33,9 @@ from sklearn.linear_model import Perceptron
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.svm import SVC
 from sklearn.mixture import GaussianMixture
-
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, roc_auc_score, confusion_matrix, hamming_loss, jaccard_score, log_loss, matthews_corrcoef, balanced_accuracy_score, precision_recall_curve, roc_curve, zero_one_loss
 from sklearn.model_selection import train_test_split
+import io
 
 
 st.markdown("<center><h1>Artificial Intelligence (AI) Studio</h1></center>", unsafe_allow_html=True)
@@ -681,11 +683,19 @@ elif ml_algorithm == "Gaussian Mixture":
     )
 
 clf.fit(X_train, y_train)
-
+model_buffer = io.BytesIO()
+joblib.dump(clf, model_buffer)
+model_buffer.seek(0)
 y_pred = clf.predict(X_test)
 
 
 col2.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
+col2.download_button(
+    label="Download Model",
+    data = model_buffer,
+    file_name="model.joblib",
+    mime="application/octet-stream"
+)
 col2.markdown(f"<b>Accuracy:</b> {accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
 col2.markdown(f"<b>Precision - Micro:</b> {precision_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
 col2.markdown(f"<b>Recall - Micro: </b> {recall_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
