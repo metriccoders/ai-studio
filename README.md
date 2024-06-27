@@ -85,8 +85,6 @@ feature1,feature2,feature3,target
 
 10,11,12,0
 
-## Contributing
-Contributions are welcome! If you have suggestions for improvements or have identified issues, please open an issue or submit a pull request. Follow the guidelines in `CONTRIBUTING.md` to get started.
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
