@@ -3,6 +3,14 @@
 ## Overview
 **AI Studio** is a GitHub repository created by **Metric Coders**. It provides a web-based user interface (UI) for the **scikit-learn** library, enabling users to create and train various machine learning (ML) models by configuring different hyperparameters through the UI. The platform is designed to simplify the process of building and experimenting with ML models, making it accessible for users with varying levels of expertise in machine learning. This application is built using **Streamlit** to provide an interactive and user-friendly experience.
 
+## Homepage UI
+Here is how the homepage looks when a custom dataset is to be loaded
+![Homepage](readme_images/homepage.png)
+
+Here is how the webpage looks when pre-trained datasets are loaded
+![Pre-trained Datasets](readme_images/metrics.png)
+
+
 ## Features
 ### Current Features
 - **Streamlit UI for Scikit-learn**: Users can easily create ML models using a graphical interface.
