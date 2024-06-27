@@ -1,98 +1,66 @@
+# AI Studio by Metric Coders
 
-# AI Studio
-
-This repository provides a user-friendly web interface for exploring and using scikit-learn (sklearn) machine learning models. The UI is built using [Streamlit](https://streamlit.io/), making it easy to visualize data, train models, and evaluate their performance without writing any code. It is available as [AI Studio](https://metriccoders-sklearn-studio-home-zegcs8.streamlit.app/).
+## Overview
+**AI Studio** is a GitHub repository created by **Metric Coders**. It provides a web-based user interface (UI) for the **scikit-learn** library, enabling users to create and train various machine learning (ML) models by configuring different hyperparameters through the UI. The platform is designed to simplify the process of building and experimenting with ML models, making it accessible for users with varying levels of expertise in machine learning. This application is built using **Streamlit** to provide an interactive and user-friendly experience.
 
 ## Features
+### Current Features
+- **Streamlit UI for Scikit-learn**: Users can easily create ML models using a graphical interface.
+- **Hyperparameter Tuning**: Adjust and experiment with different hyperparameters to optimize model performance.
+- **Preloaded Datasets**: Access to a variety of datasets provided by scikit-learn, facilitating immediate experimentation and learning.
 
-- **Data Upload:** Upload your own dataset in CSV format. (yet to be implemented)
-- **Data Visualization:** Visualize the dataset with various charts and plots. (yet to be implemented)
-- **Model Training:** Select and train different scikit-learn models. (Partial. Just basic for now)
-- **Model Evaluation:** Evaluate model performance with metrics and visualizations. (Partial. Just basic for now)
-- **Export Results:** Export trained models and evaluation results. (yet to be implemented)
+### Upcoming Features
+- **Custom Datasets**: Users will soon be able to upload and use their own datasets for model training.
+- **Model Export**: Functionality to export trained models for deployment and further use.
+- **Data Cleaning and Preprocessing**: Tools for data cleaning and preprocessing will be integrated to prepare datasets for model training.
+- **Support for LLMs**: Expansion to include large language models (LLMs), broadening the scope of the platform to natural language processing tasks.
 
-## Demo
+## Getting Started
+### Prerequisites
+- Python 3.6+
+- Scikit-learn library
+- Streamlit
 
-You can check out the live demo here: [AI Studio](https://metriccoders-sklearn-studio-home-zegcs8.streamlit.app/) (link to the deployed Streamlit app).
+### Installation
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/MetricCoders/AI-Studio.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd AI-Studio
+    ```
+3. Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-## Installation
-
-To run this project locally, follow these steps:
-
-1. **Clone the repository:**
-
-   ```sh
-   git clone https://github.com/metriccoders/sklearn-studio.git
-   cd sklearn-studio
-   ```
-
-2. **Create a virtual environment:**
-
-   ```sh
-   python -m venv venv
-   ```
-
-3. **Activate the virtual environment:**
-
-   - On Windows:
-     ```sh
-     venv\Scripts\activate
-     ```
-   - On macOS and Linux:
-     ```sh
-     source venv/bin/activate
-     ```
-
-4. **Install the required dependencies:**
-
-   ```sh
-   pip install -r requirements.txt
-   ```
-
-5. **Run the Streamlit app:**
-
-   ```sh
-   streamlit run Home.py
-   ```
-
-6. Open your web browser and go to `http://localhost:8501` to view the app.
+### Running the Application
+To start the Streamlit application, use the following command:
+```bash
+streamlit run Home.py
+```
+This will launch the AI Studio web UI. Open your web browser and navigate to the URL provided in the terminal to start using the platform.
 
 ## Usage
+### Creating a Model
+1. **Select a Dataset**: Choose from a variety of preloaded datasets.
+2. **Choose an Algorithm**: Select the machine learning algorithm you wish to use (e.g., linear regression, decision trees, etc.).
+3. **Set Hyperparameters**: Configure the hyperparameters for your chosen algorithm.
+4. **Train the Model**: Click the "Train" button to build and train your model.
 
-### Upload Dataset
-(yet to be implemented)
-- Click on the "Upload CSV" button to upload your dataset.
-- The dataset should be in CSV format with a header row.
-
-### Data Visualization
-(yet to be implemented)
-- Use the sidebar to select the columns you want to visualize.
-- Choose from different types of plots like histograms, scatter plots, and box plots.
-
-### Model Training
-(In progress...)
-- Select a machine learning model from the sidebar (e.g., RandomForestClassifier, LogisticRegression).
-- Configure the model parameters as needed.
-- Click the "Train Model" button to train the model on the uploaded dataset.
-
-### Model Evaluation
-(In progress...)
-- View the performance metrics such as accuracy, precision, recall, and F1-score.
-- Visualize the confusion matrix and ROC curve.
-
-### Export Results
-(yet to be implemented)
-- Download the trained model and evaluation results.
+### Evaluating a Model
+After training, AI Studio provides performance metrics and visualizations to help you evaluate the effectiveness of your model. Use these insights to refine your model by adjusting hyperparameters or selecting different algorithms.
 
 ## Contributing
-
-Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to contribute to this project.
+Contributions are welcome! If you have suggestions for improvements or have identified issues, please open an issue or submit a pull request. Follow the guidelines in `CONTRIBUTING.md` to get started.
 
 ## License
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+## Contact
+For questions, feedback, or support, please contact the Metric Coders team via email at info@metriccoders.com.
 
-## Acknowledgements
+---
 
-- [scikit-learn](https://scikit-learn.org/)
-- [Streamlit](https://streamlit.io/)
+**AI Studio by Metric Coders** aims to democratize machine learning by providing an intuitive platform for model creation and experimentation. With upcoming features and continuous improvements, it strives to be a comprehensive tool for both novice and experienced data scientists.
