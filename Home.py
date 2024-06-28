@@ -1,7 +1,7 @@
 import streamlit as st
 import joblib
 #from streamlit_lottie import st_lottie
-from sklearn.datasets import load_iris, load_digits, load_wine, load_breast_cancer
+from sklearn.datasets import load_iris, load_digits, load_wine, load_breast_cancer, load_diabetes, load_linnerud
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, BaggingClassifier, GradientBoostingClassifier, ExtraTreesClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -37,15 +37,83 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.model_selection import train_test_split
 import io
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import (
+    mean_absolute_error,
+    mean_squared_error,
+    mean_squared_log_error,
+    median_absolute_error,
+    r2_score,
+    explained_variance_score
+)
+from sklearn.linear_model._bayes import ARDRegression
+from sklearn.ensemble._weight_boosting import AdaBoostRegressor
+from sklearn.ensemble._bagging import BaggingRegressor
+from sklearn.linear_model._bayes import BayesianRidge
+from sklearn.cross_decomposition._pls import CCA
+from sklearn.tree._classes import DecisionTreeRegressor
+from sklearn.dummy import DummyRegressor
+from sklearn.linear_model._coordinate_descent import ElasticNet
+from sklearn.linear_model._coordinate_descent import ElasticNetCV
+from sklearn.tree._classes import ExtraTreeRegressor
+from sklearn.ensemble._forest import ExtraTreesRegressor
+from sklearn.linear_model._glm.glm import GammaRegressor
+from sklearn.gaussian_process._gpr import GaussianProcessRegressor
+from sklearn.ensemble._gb import GradientBoostingRegressor
+from sklearn.ensemble._hist_gradient_boosting.gradient_boosting import HistGradientBoostingRegressor
+from sklearn.linear_model._huber import HuberRegressor
+from sklearn.isotonic import IsotonicRegression
+from sklearn.neighbors._regression import KNeighborsRegressor
+from sklearn.kernel_ridge import KernelRidge
+from sklearn.linear_model._least_angle import Lars
+from sklearn.linear_model._least_angle import LarsCV
+from sklearn.linear_model._coordinate_descent import Lasso
+from sklearn.linear_model._coordinate_descent import LassoCV
+from sklearn.linear_model._least_angle import LassoLars
+from sklearn.linear_model._least_angle import LassoLarsCV
+from sklearn.linear_model._least_angle import LassoLarsIC
+from sklearn.linear_model._base import LinearRegression
+from sklearn.svm._classes import LinearSVR
+from sklearn.neural_network._multilayer_perceptron import MLPRegressor
+from sklearn.multioutput import MultiOutputRegressor
+from sklearn.linear_model._coordinate_descent import MultiTaskElasticNet
+from sklearn.linear_model._coordinate_descent import MultiTaskElasticNetCV
+from sklearn.linear_model._coordinate_descent import MultiTaskLasso
+from sklearn.linear_model._coordinate_descent import MultiTaskLassoCV
+from sklearn.svm._classes import NuSVR
+from sklearn.linear_model._omp import OrthogonalMatchingPursuit
+from sklearn.linear_model._omp import OrthogonalMatchingPursuitCV
+from sklearn.cross_decomposition._pls import PLSCanonical
+from sklearn.cross_decomposition._pls import PLSRegression
+from sklearn.linear_model._passive_aggressive import PassiveAggressiveRegressor
+from sklearn.linear_model._glm.glm import PoissonRegressor
+from sklearn.linear_model._quantile import QuantileRegressor
+from sklearn.linear_model._ransac import RANSACRegressor
+from sklearn.neighbors._regression import RadiusNeighborsRegressor
+from sklearn.ensemble._forest import RandomForestRegressor
+from sklearn.multioutput import RegressorChain
+from sklearn.linear_model._ridge import Ridge
+from sklearn.linear_model._ridge import RidgeCV
+from sklearn.linear_model._stochastic_gradient import SGDRegressor
+from sklearn.svm._classes import SVR
+from sklearn.ensemble._stacking import StackingRegressor
+from sklearn.linear_model._theil_sen import TheilSenRegressor
+from sklearn.compose._target import TransformedTargetRegressor
+from sklearn.linear_model._glm.glm import TweedieRegressor
+
 
 
 st.markdown("<center><h1>Artificial Intelligence (AI) Studio</h1></center>", unsafe_allow_html=True)
 #st.lottie("https://lottie.host/f9ecc8cd-9a0e-49f5-bfbe-89bb59ca794b/Qnv20SfUVi.json", height=50, width=50, quality="high")
 st.markdown("<center><h4><b>By Metric Coders</b></h4></center>", unsafe_allow_html=True)
 dataset = load_iris()
-clf = AdaBoostClassifier
+clf = AdaBoostClassifier()
+regr = ARDRegression()
 X = None
 y = None
+ml_algo_options = ["Classifiers", "Regressors"]
+
+algo_type = st.radio("Select the type of ML algorithm:", ml_algo_options)
 
 own_dataset = st.checkbox(label="Load Own Dataset (The CSV file should have the header by the name 'target' as the result column)", value=False)
 if own_dataset:
@@ -59,21 +127,29 @@ if own_dataset:
         X = data.drop("target", axis=1)
         y = data["target"]
 else:
-    dataset_option = st.selectbox("Dataset", ["Iris", "Digits", "Wine", "Breast Cancer"], index=0)
-    if dataset_option == "Iris":
-        dataset = load_iris()
-    elif dataset_option == "Digits":
-        dataset = load_digits()
-    elif dataset_option == "Wine":
-        dataset = load_wine()
-    elif dataset_option == "Breast Cancer":
-        dataset = load_breast_cancer()
+    if algo_type == "Classifiers":
+        dataset_option = st.selectbox("Dataset", ["Iris", "Digits", "Wine", "Breast Cancer"], index=0)
+        if dataset_option == "Iris":
+            dataset = load_iris()
+        elif dataset_option == "Digits":
+            dataset = load_digits()
+        elif dataset_option == "Wine":
+            dataset = load_wine()
+        elif dataset_option == "Breast Cancer":
+            dataset = load_breast_cancer()
+    elif algo_type == "Regressors":
+        dataset_option = st.selectbox("Dataset", ["Diabetes", "Linnerrud"], index=0)
+        if dataset_option == "Diabetes":
+            dataset = load_diabetes()
+        elif dataset_option == "Linnerrud":
+            dataset = load_linnerud()
+
     X = dataset.data
     y = dataset.target
 
 
-
-ml_algorithm = st.selectbox("ML Algorithm", ["AdaBoost Classifier",
+if algo_type == "Classifiers":
+    ml_algorithm = st.selectbox("Classifiers", ["AdaBoost Classifier",
                                              "Bagging Classifier",
                                              "BernoulliNB",
                                              "Calibrated Classifier CV",
@@ -111,7 +187,61 @@ ml_algorithm = st.selectbox("ML Algorithm", ["AdaBoost Classifier",
                                              "SVC",
                                              "Gaussian Mixture",
                                              ], index=0)
-
+else:
+    ml_algorithm = st.selectbox("Regressors", [
+        "ARD Regression",
+        "AdaBoost Regressor",
+        "Bagging Regressor",
+        "Bayesian Ridge",
+        "CCA",
+        "Decision Tree Regressor",
+        "Elastic Net",
+        "Elastic Net CV",
+        "Extra Tree Regressor",
+        "Extra Trees Regressor",
+        "Gamma Regressor",
+        "Gaussian Process Regressor",
+        "Gradient Boosting Regressor",
+        "Hist Gradient Boosting Regressor",
+        "Huber Regressor",
+        "Isotonic Regression",
+        "KNeighbors Regressor",
+        "Kernel Ridge",
+        "Lars",
+        "Lars CV",
+        "Lasso",
+        "Lasso CV",
+        "Lasso Lars",
+        "Lasso Lars CV",
+        "Lasso Lars IC",
+        "Linear Regression",
+        "Linear SVR",
+        "MLP Regressor",
+        "Multi Output Regressor",
+        "Multi Task Elastic Net",
+        "Multi Task Elastic Net CV",
+        "Multi Task Lasso",
+        "Multi Task Lasso CV",
+        "NuSVR",
+        "Orthogonal Matching Pursuit",
+        "Orthogonal Matching Pursuit CV",
+        "PLS Canonical",
+        "PLS Regression",
+        "Passive Aggressive Regressor",
+        "Poisson Regressor",
+        "Quantile Regressor",
+        "RANSAC Regressor",
+        "Radius Neighbors Regressor",
+        "Random Forest Regressor",
+        "Regressor Chain",
+        "Ridge",
+        "Ridge CV",
+        "SGD Regressor",
+        "SVR",
+        "Theil Sen Regressor",
+        "Transformed Target Regressor",
+        "TweedieRegressor"
+    ], index=0)
 col1, col2 = st.columns(2)
 
 col1.markdown("<center><h3>Hyperparameters</h3></center>" ,unsafe_allow_html=True)
@@ -689,7 +819,30 @@ elif ml_algorithm == "Gaussian Mixture":
         warm_start=warm_start
     )
 
-if X is not None and y is not None:
+
+elif ml_algorithm == "ARD Regression":
+    compute_score = col1.selectbox("compute_score", [True, False], index=1)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    regr = ARDRegression(
+        compute_score=compute_score,
+        fit_intercept=fit_intercept,
+        copy_X=copy_X
+    )
+
+elif ml_algorithm == "AdaBoost Regressor":
+    loss = col1.selectbox("loss", ["linear", "square", "exponential"], index=0)
+    n_estimators = col1.slider("n_estimators", min_value=10, max_value=500, value=50, step=10)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = AdaBoostRegressor(
+        loss=loss,
+        n_estimators=n_estimators,
+        random_state=random_state
+    )
+
+
+if X is not None and y is not None and algo_type == "Classifiers":
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
     clf.fit(X_train, y_train)
@@ -730,8 +883,36 @@ if X is not None and y is not None:
     col2.markdown(f"<b>Zero-One Loss:</b> {zero_one_loss(y_test, y_pred)}", unsafe_allow_html=True)
 
 
+elif X is not None and y is not None and algo_type == "Regressors":
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
 
+    regr.fit(X_train_scaled, y_train)
+    model_buffer = io.BytesIO()
+    joblib.dump(regr, model_buffer)
+    model_buffer.seek(0)
+    y_pred = regr.predict(X_test_scaled)
 
+    col2.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
+    col2.download_button(
+        label="Download Model",
+        data=model_buffer,
+        file_name="model.joblib",
+        mime="application/octet-stream"
+    )
+    col2.markdown(f"<b>Mean Absolute Error:</b> {mean_absolute_error(y_test, y_pred)}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Mean Squared Error:</b> {mean_squared_error(y_test, y_pred)}",
+                  unsafe_allow_html=True)
+    col2.markdown(f"<b>Mean Squared Error (Squared = False): </b> {mean_squared_error(y_test, y_pred, squared=False)}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Mean Squared Log Error: </b> {mean_squared_log_error(y_test, y_pred)}", unsafe_allow_html=True)
+    col2.markdown(f"<b>Median Absolute Error:</b> {median_absolute_error(y_test, y_pred)}",
+                  unsafe_allow_html=True)
+    col2.markdown(f"<b>R2 Score:</b> {r2_score(y_test, y_pred)}",
+                  unsafe_allow_html=True)
+    col2.markdown(f"<b>Explained Variance Score:</b> {explained_variance_score(y_test, y_pred)}",
+                  unsafe_allow_html=True)
 
 
 
