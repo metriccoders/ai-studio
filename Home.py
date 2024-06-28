@@ -1177,6 +1177,29 @@ elif ml_algorithm == "Linear SVR":
         random_state=random_state
     )
 
+elif ml_algorithm == "MLP Regressor":
+    activation = col1.selectbox("activation", ['identity', 'logistic', 'tanh', 'relu'], index=3)
+    solver = col1.selectbox("solver", ['lbfgs', 'sgd', 'adam'], index=2)
+    learning_rate = col1.selectbox("learning_rate", ['constant', 'invscaling', 'adaptive'], index=0)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=5000, value=200, step=100)
+    shuffle = col1.selectbox("shuffle", [True, False], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=1)
+    nesterovs_momentum = col1.selectbox("nesterovs_momentum", [True, False], index=0)
+    early_stopping = col1.selectbox("early_stopping", [True, False], index=1)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = MLPRegressor(
+        activation=activation,
+        solver=solver,
+        learning_rate=learning_rate,
+        max_iter=max_iter,
+        shuffle=shuffle,
+        warm_start=warm_start,
+        nesterovs_momentum=nesterovs_momentum,
+        early_stopping=early_stopping,
+        random_state=random_state
+        )
+
 
 if X is not None and y is not None and algo_type == "Classifiers":
 
