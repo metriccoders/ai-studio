@@ -1127,6 +1127,32 @@ elif ml_algorithm == "Lasso Lars":
         fit_path=fit_path
     )
 
+elif ml_algorithm == "Lasso Lars CV":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    positive = col1.selectbox("positive", [True, False], index=1)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=2000, value=500, step=100)
+
+    regr = LassoLarsCV(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        max_iter=max_iter,
+        positive=positive,
+    )
+
+elif ml_algorithm == "Lasso Lars IC":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    positive = col1.selectbox("positive", [True, False], index=1)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=2000, value=500, step=100)
+
+    regr = LassoLarsIC(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        max_iter=max_iter,
+        positive=positive,
+    )
+
 
 if X is not None and y is not None and algo_type == "Classifiers":
 
