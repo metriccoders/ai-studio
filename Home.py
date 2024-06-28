@@ -1164,6 +1164,19 @@ elif ml_algorithm == "Linear Regression":
         positive=positive,
     )
 
+elif ml_algorithm == "Linear SVR":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    loss = col1.selectbox("loss", ['epsilon_insensitive', 'squared_epsilon_insensitive'], index=0)
+    max_iter = col1.slider("max_iter", min_value=1000, max_value=5000, value=1000, step=100)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = LinearSVR(
+        fit_intercept=fit_intercept,
+        loss=loss,
+        max_iter=max_iter,
+        random_state=random_state
+    )
+
 
 if X is not None and y is not None and algo_type == "Classifiers":
 
