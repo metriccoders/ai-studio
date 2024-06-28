@@ -1237,6 +1237,55 @@ elif ml_algorithm == "Multi Task Elastic Net CV":
         random_state=random_state
     )
 
+elif ml_algorithm == "Multi Task Lasso":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=1000, max_value=10000, value=1000, step=100)
+    selection = col1.selectbox("selection", ['cyclic', 'random'], index=0)
+    random_state = col1.slider('random_state', min_value=1, max_value=100, value=42, step=1)
+
+    regr = MultiTaskLasso(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        max_iter=max_iter,
+        selection=selection,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Multi Task Lasso CV":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=1000, max_value=10000, value=1000, step=100)
+    selection = col1.selectbox("selection", ['cyclic', 'random'], index=0)
+    random_state = col1.slider('random_state', min_value=1, max_value=100, value=42, step=1)
+
+    regr = MultiTaskLassoCV(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        max_iter=max_iter,
+        selection=selection,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "NuSVR":
+    kernel = col1.selectbox("kernel", ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], index=2)
+    gamma = col1.selectbox("gamma", ['scale', 'auto'], index=0)
+    nu = col1.slider("nu", min_value=0.1, max_value=10.0, value=0.5, step=0.1)
+    shrinking = col1.selectbox("shrinking", [True, False], index=0)
+
+    regr = NuSVR(
+        kernel=kernel,
+        gamma=gamma,
+        nu=nu,
+        shrinking=shrinking
+    )
+
+elif ml_algorithm == "Orthogonal Matching Pursuit":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+
+    regr = OrthogonalMatchingPursuit(
+        fit_intercept=fit_intercept
+    )
 
 if X is not None and y is not None and algo_type == "Classifiers":
 
