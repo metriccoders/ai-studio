@@ -1200,6 +1200,28 @@ elif ml_algorithm == "MLP Regressor":
         random_state=random_state
         )
 
+elif ml_algorithm == "Multi Output Regressor":
+
+    regr = MultiOutputRegressor()
+
+
+elif ml_algorithm == "Multi Task Elastic Net":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=1000, max_value=10000, value=1000, step=100)
+    selection = col1.selectbox("selection", ['cyclic', 'random'], index=0)
+    random_state = col1.slider('random_state', min_value=1, max_value=100, value=42, step=1)
+
+    regr = MultiTaskElasticNet(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        warm_start=warm_start,
+        max_iter=max_iter,
+        selection=selection,
+        random_state=random_state
+    )
+
 
 if X is not None and y is not None and algo_type == "Classifiers":
 
