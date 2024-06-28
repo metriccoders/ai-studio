@@ -990,9 +990,141 @@ elif ml_algorithm == "Gradient Boosting Regressor":
     n_estimators = col1.slider("n_estimators", min_value=100, max_value=1000, value=100, step=10)
     criterion = col1.selectbox("criterion", ['friedman_mse', 'squared_error'], index=0)
     random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
-    warm_state = col1.selectbox("warm_state", ['friedman_mse', 'squared_error'], index=0)
+    warm_state = col1.selectbox("warm_state", [True, False], index=1)
 
     regr = GradientBoostingRegressor(
+        loss=loss,
+        learning_rate=learning_rate,
+        n_estimators=n_estimators,
+        criterion=criterion,
+        random_state=random_state,
+        warm_start=warm_state
+    )
+
+elif ml_algorithm == "Hist Gradient Boosting Regressor":
+    loss = col1.selectbox("loss", ['squared_error', 'absolute_error', 'gamma', 'poisson', 'quantile'], index=0)
+    learning_rate = col1.slider("learning_rate", min_value=0.1, max_value=10.0, value=0.1, step=0.1)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+    warm_state = col1.selectbox("warm_state", [True, False], index=1)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=1000, value=100, step=10)
+
+
+    regr = HistGradientBoostingRegressor(
+        loss=loss,
+        learning_rate=learning_rate,
+        max_iter=max_iter,
+        random_state=random_state,
+        warm_start=warm_state
+    )
+
+elif ml_algorithm == "Huber Regressor":
+    epsilon = col1.slider("epsilon", min_value=1.0, max_value=100.0, value=1.35, step=0.01)
+    alpha = col1.slider("alpha", min_value=0.0001, max_value=1.0, value=0.0001, step=0.0001)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    warm_state = col1.selectbox("warm_state", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=1000, value=100, step=10)
+
+
+    regr = HuberRegressor(
+        epsilon=epsilon,
+        alpha=alpha,
+        fit_intercept=fit_intercept,
+        max_iter=max_iter,
+        warm_start=warm_state
+    )
+
+elif ml_algorithm == "Isotonic Regression":
+    increasing = col1.selectbox("increasing", [True, False], index=0)
+
+    regr = IsotonicRegression(
+        increasing=increasing
+    )
+
+elif ml_algorithm == "KNeighbors Regressor":
+    n_neighbors = col1.slider("n_neighbors", min_value=1, max_value=100, value=5, step=1)
+    algorithm = col1.selectbox("algorithm", ['auto', 'ball_tree', 'kd_tree', 'brute'], index=0)
+    leaf_size = col1.slider("leaf_size", min_value=10, max_value=100, value=30, step=1)
+
+    regr = KNeighborsRegressor(
+        n_neighbors=n_neighbors,
+        algorithm=algorithm,
+        leaf_size=leaf_size
+    )
+
+elif ml_algorithm == "Kernel Ridge":
+    degree = col1.slider("degree", min_value=1, max_value=100, value=3, step=1)
+
+    regr = KernelRidge(
+        degree=degree
+    )
+
+elif ml_algorithm == "Lars":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    fit_path = col1.selectbox("fit_path", [True, False], index=0)
+
+    regr = Lars(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        fit_path=fit_path
+    )
+
+elif ml_algorithm == "Lars CV":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=2000, value=500, step=100)
+
+    regr = LarsCV(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        max_iter=max_iter
+    )
+
+elif ml_algorithm == "Lasso":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=1)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=2000, value=500, step=100)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = Lasso(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        max_iter=max_iter,
+        warm_start=warm_start,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Lasso CV":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    positive = col1.selectbox("positive", [True, False], index=1)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=2000, value=500, step=100)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = LassoCV(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        max_iter=max_iter,
+        random_state=random_state,
+        positive=positive
+    )
+
+elif ml_algorithm == "Lasso Lars":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    positive = col1.selectbox("positive", [True, False], index=1)
+    fit_path = col1.selectbox("fit_path", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=2000, value=500, step=100)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = LassoLars(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        max_iter=max_iter,
+        random_state=random_state,
+        positive=positive,
+        fit_path=fit_path
     )
 
 
