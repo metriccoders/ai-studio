@@ -1289,9 +1289,10 @@ elif ml_algorithm == "Orthogonal Matching Pursuit":
 
 elif ml_algorithm == "Orthogonal Matching Pursuit CV":
     fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
-
+    copy = col1.selectbox("copy", [True, False], index=0)
     regr = OrthogonalMatchingPursuitCV(
-        fit_intercept=fit_intercept
+        fit_intercept=fit_intercept,
+        copy=copy
     )
 
 if X is not None and y is not None and algo_type == "Classifiers":
