@@ -1295,6 +1295,12 @@ elif ml_algorithm == "Orthogonal Matching Pursuit CV":
         copy=copy
     )
 
+elif ml_algorithm == "PLS Canonical":
+    copy = col1.selectbox("copy", [True, False], index=0)
+    regr = PLSCanonical(
+        copy=copy
+    )
+
 if X is not None and y is not None and algo_type == "Classifiers":
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
