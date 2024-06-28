@@ -840,6 +840,160 @@ elif ml_algorithm == "AdaBoost Regressor":
         n_estimators=n_estimators,
         random_state=random_state
     )
+elif ml_algorithm == "Bagging Regressor":
+    n_estimators = col1.slider("n_estimators", min_value=10, max_value=500, value=10, step=10)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+    bootstrap = col1.selectbox("bootstrap", [True, False], index=0)
+    bootstrap_features = col1.selectbox("bootstrap_features", [True, False], index=1)
+    oob_score = col1.selectbox("oob_score", [True, False], index=1)
+    warm_state = col1.selectbox("warm_state", [True, False], index=1)
+
+    regr = BaggingRegressor(
+        n_estimators=n_estimators,
+        random_state=random_state,
+        bootstrap=bootstrap,
+        bootstrap_features=bootstrap_features,
+        oob_score=oob_score,
+        warm_start=warm_state
+    )
+
+elif ml_algorithm == "Bayesian Ridge":
+
+    compute_score = col1.selectbox("compute_score", [True, False], index=1)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+
+    regr = BayesianRidge(
+        compute_score=compute_score,
+        fit_intercept=fit_intercept,
+        copy_X=copy_X
+    )
+
+elif ml_algorithm == "CCA":
+    n_components = col1.slider("n_components", min_value=1, max_value=100, value=2, step=1)
+    scale = col1.selectbox("scale", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=1000, value=500, step=10)
+    copy = col1.selectbox("copy", [True, False], index=0)
+
+    regr = CCA(
+        n_components=n_components,
+        scale=scale,
+        max_iter=max_iter,
+        copy=copy
+    )
+
+elif ml_algorithm == "Decision Tree Regressor":
+    criterion = col1.selectbox("criterion", ["squared_error", "friedman_mse", "absolute_error", "poisson"], index=0)
+    splitter = col1.selectbox("splitter", ["best", "random"], index=0)
+
+    regr = DecisionTreeRegressor(
+        criterion=criterion,
+        splitter=splitter
+    )
+elif ml_algorithm == "Elastic Net":
+    alpha = col1.slider("alpha", min_value=1.0, max_value=10.0, value=1.0, step=0.1)
+    l1_ratio = col1.slider("l1_ratio", min_value=0.0, max_value=1.0, value=0.5, step=0.1)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=1000, max_value=10000, value=1000, step=100)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=1)
+    positive = col1.selectbox("positive", [True, False], index=1)
+    selection = col1.selectbox("selection", ['cyclic', 'random'], index=0)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = ElasticNet(
+        alpha=alpha,
+        l1_ratio=l1_ratio,
+        fit_intercept=fit_intercept,
+        max_iter=max_iter,
+        copy_X=copy_X,
+        warm_start=warm_start,
+        positive=positive,
+        selection=selection,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Elastic Net CV":
+
+    l1_ratio = col1.slider("l1_ratio", min_value=0.0, max_value=1.0, value=0.5, step=0.1)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=1000, max_value=10000, value=1000, step=100)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+
+    positive = col1.selectbox("positive", [True, False], index=1)
+    selection = col1.selectbox("selection", ['cyclic', 'random'], index=0)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = ElasticNetCV(
+        l1_ratio=l1_ratio,
+        fit_intercept=fit_intercept,
+        max_iter=max_iter,
+        copy_X=copy_X,
+        positive=positive,
+        selection=selection,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Extra Tree Regressor":
+
+    criterion = col1.selectbox("criterion", ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'], index=0)
+    splitter = col1.selectbox("splitter", ['random', 'best'], index=0)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = ExtraTreeRegressor(
+        criterion=criterion,
+        splitter=splitter,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Extra Trees Regressor":
+
+    criterion = col1.selectbox("criterion", ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'], index=0)
+    bootstrap = col1.selectbox("bootstrap", [True, False], index=1)
+    oob_score = col1.selectbox("oob_score", [True, False], index=1)
+    warm_state = col1.selectbox("warm_state", [True, False], index=1)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = ExtraTreesRegressor(
+        criterion=criterion,
+        bootstrap=bootstrap,
+        oob_score=oob_score,
+        warm_start=warm_state,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Gamma Regressor":
+    alpha = col1.slider("alpha", min_value=1, max_value=100, value=1, step=1)
+    solver = col1.selectbox("solver", ['lbfgs', 'newton-cholesky'], index=0)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=1)
+    warm_state = col1.selectbox("warm_state", [True, False], index=1)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = GammaRegressor(
+        alpha=alpha,
+        solver=solver,
+        fit_intercept=fit_intercept,
+        warm_start=warm_state,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Gaussian Process Regressor":
+    normalize_y = col1.selectbox("normalize_y", [True, False], index=1)
+
+    regr = GaussianProcessRegressor(
+        normalize_y=normalize_y
+    )
+
+elif ml_algorithm == "Gradient Boosting Regressor":
+    loss = col1.selectbox("loss", ['squared_error', 'absolute_error', 'huber', 'quantile'], index=0)
+    learning_rate = col1.slider("learning_rate", min_value=0.1, max_value=10.0, value=0.1, step=0.1)
+    n_estimators = col1.slider("n_estimators", min_value=100, max_value=1000, value=100, step=10)
+    criterion = col1.selectbox("criterion", ['friedman_mse', 'squared_error'], index=0)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+    warm_state = col1.selectbox("warm_state", ['friedman_mse', 'squared_error'], index=0)
+
+    regr = GradientBoostingRegressor(
+    )
 
 
 if X is not None and y is not None and algo_type == "Classifiers":
