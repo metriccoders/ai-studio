@@ -1307,6 +1307,184 @@ elif ml_algorithm == "PLS Canonical":
         max_iter=max_iter
     )
 
+elif ml_algorithm == "PLS Regression":
+    copy = col1.selectbox("copy", [True, False], index=0)
+    scale = col1.selectbox("scale", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=10000, value=500, step=100)
+    regr = PLSRegression(
+        copy=copy,
+        scale=scale,
+        max_iter=max_iter
+    )
+
+elif ml_algorithm == "Passive Aggressive Regressor":
+    c = col1.slider("C", min_value=1.0, max_value=100.0, value=1.0, step=0.1)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    shuffle = col1.selectbox("shuffle", [True, False], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=1)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=10000, value=1000, step=100)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = PassiveAggressiveRegressor(
+        C=c,
+        fit_intercept=fit_intercept,
+        shuffle=shuffle,
+        warm_start=warm_start,
+        max_iter=max_iter,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Poisson Regressor":
+    alpha = col1.slider("alpha", min_value=1.0, max_value=100.0, value=1.0, step=0.1)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    solver = col1.selectbox("solver", ['lbfgs', 'newton-cholesky'], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=1)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=1000, value=100, step=10)
+
+    regr = PoissonRegressor(
+        alpha=alpha,
+        solver=solver,
+        fit_intercept=fit_intercept,
+        warm_start=warm_start,
+        max_iter=max_iter,
+    )
+
+elif ml_algorithm == "Quantile Regressor":
+    alpha = col1.slider("alpha", min_value=1.0, max_value=100.0, value=1.0, step=0.1)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    solver = col1.selectbox("solver", ['highs-ds', 'highs-ipm', 'highs', 'interior-point', 'revised simplex'], index=2)
+
+    regr = QuantileRegressor(
+        alpha=alpha,
+        solver=solver,
+        fit_intercept=fit_intercept
+    )
+elif ml_algorithm == "RANSAC Regressor":
+    max_trials = col1.slider("max_trials", min_value=100, max_value=1000, value=100, step=100)
+    random_state = col1.slider("random_state",  min_value=1, max_value=100, value=42, step=1)
+
+    regr = RANSACRegressor(
+        max_trials=max_trials,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Radius Neighbors Regressor":
+    radius = col1.slider("radius", min_value=1.0, max_value=10.0, value=1.0, step=0.1)
+    weights = col1.selectbox("weights", ["uniform", "distance"], index=0)
+    algorithm = col1.selectbox("algorithm", ["auto", "ball_tree", "kd_tree", "brute"], index=0)
+    leaf_size = col1.slider("leaf_size", min_value=1, max_value=100, value=30, step=1)
+
+    regr = RadiusNeighborsRegressor(
+        radius=radius,
+        weights=weights,
+        algorithm=algorithm,
+        leaf_size=leaf_size
+    )
+
+elif ml_algorithm == "Random Forest Regressor":
+    n_estimators = col1.slider("n_estimators", min_value=100, max_value=1000, value=100, step=10)
+    criterion = col1.selectbox("criterion", ["squared_error", "absolute_error", "friedman_mse", "poisson"], index=0)
+    bootstrap = col1.selectbox("bootstrap", [True, False], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=1)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = RandomForestRegressor(
+        n_estimators=n_estimators,
+        criterion=criterion,
+        bootstrap=bootstrap,
+        warm_start=warm_start,
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Regressor Chain":
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+    regr = RegressorChain(
+        random_state=random_state
+    )
+
+elif ml_algorithm == "Ridge":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    positive = col1.selectbox("positive", [True, False], index=1)
+    solver = col1.selectbox("solver", ['auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag', 'saga', 'lbfgs'], index=0)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+    regr = Ridge(
+        fit_intercept=fit_intercept,
+        random_state=random_state,
+        copy_X=copy_X,
+        positive=positive,
+        solver=solver
+    )
+
+elif ml_algorithm == "Ridge CV":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    regr = RidgeCV(
+        fit_intercept=fit_intercept,
+    )
+
+elif ml_algorithm == "SGD Regressor":
+    loss = col1.selectbox("loss", ["l2", "l1", "elasticnet", None], index=0)
+    alpha = col1.slider("alpha", min_value=0.0001, max_value=1.000, value=0.0001, step=0.0001)
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=1000, max_value=10000, value=100, step=100)
+
+    regr = SGDRegressor(
+        fit_intercept=fit_intercept,
+        loss=loss,
+        alpha=alpha,
+        max_iter=max_iter
+    )
+
+elif ml_algorithm == "SVR":
+    kernel = col1.selectbox("kernel", ["linear", "poly", "rbf", "sigmoid", "precomputed"], index=2)
+    degree = col1.slider("degree", min_value=1, max_value=100, value=3, step=1)
+    epsilon = col1.slider("epsilon", min_value=0.1, max_value=100.0, value=0.1, step=0.1)
+    shrinking = col1.selectbox("shrinking", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=1000, max_value=10000, value=100, step=100)
+
+    regr = SVR(
+        kernel=kernel,
+        degree=degree,
+        epsilon=epsilon,
+        shrinking=shrinking,
+        max_iter=max_iter
+    )
+
+elif ml_algorithm == "Theil Sen Regressor":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=10000, value=100, step=100)
+    random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
+
+    regr = TheilSenRegressor(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        random_state=random_state,
+        max_iter=max_iter
+    )
+
+elif ml_algorithm == "Transformed Target Regressor":
+    check_inverse = col1.selectbox("check_inverse", [True, False], index=0)
+
+    regr = TransformedTargetRegressor(
+        check_inverse=check_inverse
+    )
+
+elif ml_algorithm == "TweedieRegressor":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    link = col1.selectbox("link", ["auto", "identity", "log"], index=0)
+    solver = col1.selectbox("solver", ["lbfgs", "newton-cholesky"], index=0)
+    warm_start = col1.selectbox("warm_start", [True, False], index=1)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=10000, value=100, step=100)
+
+    regr = TweedieRegressor(
+        fit_intercept=fit_intercept,
+        link=link,
+        solver=solver,
+        warm_start=warm_start,
+        max_iter=max_iter
+    )
+
 if X is not None and y is not None and algo_type == "Classifiers":
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
