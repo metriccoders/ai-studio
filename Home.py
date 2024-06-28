@@ -1299,10 +1299,12 @@ elif ml_algorithm == "PLS Canonical":
     copy = col1.selectbox("copy", [True, False], index=0)
     scale = col1.selectbox("scale", [True, False], index=0)
     algorithm = col1.selectbox("algorithm", ['nipals', 'svd'], index=0)
+    max_iter = col1.slider("max_iter", min_value=100, max_value=10000, value=500, step=100)
     regr = PLSCanonical(
         copy=copy,
         scale=scale,
-        algorithm=algorithm
+        algorithm=algorithm,
+        max_iter=max_iter
     )
 
 if X is not None and y is not None and algo_type == "Classifiers":
