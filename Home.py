@@ -1153,6 +1153,17 @@ elif ml_algorithm == "Lasso Lars IC":
         positive=positive,
     )
 
+elif ml_algorithm == "Linear Regression":
+    fit_intercept = col1.selectbox("fit_intercept", [True, False], index=0)
+    copy_X = col1.selectbox("copy_X", [True, False], index=0)
+    positive = col1.selectbox("positive", [True, False], index=1)
+
+    regr = LinearRegression(
+        fit_intercept=fit_intercept,
+        copy_X=copy_X,
+        positive=positive,
+    )
+
 
 if X is not None and y is not None and algo_type == "Classifiers":
 
