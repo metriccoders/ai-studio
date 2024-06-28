@@ -1297,8 +1297,12 @@ elif ml_algorithm == "Orthogonal Matching Pursuit CV":
 
 elif ml_algorithm == "PLS Canonical":
     copy = col1.selectbox("copy", [True, False], index=0)
+    scale = col1.selectbox("scale", [True, False], index=0)
+    algorithm = col1.selectbox("algorithm", ['nipals', 'svd'], index=0)
     regr = PLSCanonical(
-        copy=copy
+        copy=copy,
+        scale=scale,
+        algorithm=algorithm
     )
 
 if X is not None and y is not None and algo_type == "Classifiers":
