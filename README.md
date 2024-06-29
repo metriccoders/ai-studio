@@ -9,10 +9,10 @@ The platform offers a **one-click deployment** zip file that contains everything
 ## Homepage UI
 
 Here is how the webpage looks when pre-trained datasets are loaded
-![Pre-trained Datasets](readme_images/metrics.png)
+![Pre-trained Datasets](readme_images/home_page.png)
 
 Here is how the homepage looks when a custom dataset is loaded
-![Dataset](readme_images/dataset_load.png)
+![Dataset](readme_images/file_upload.png)
 
 
 ## Features
