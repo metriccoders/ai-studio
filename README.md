@@ -1,4 +1,10 @@
-# AI Studio by Metric Coders
+<p align="center">
+  <img src="readme_images/github_readme_header_image.png" alt="AI Studio"/>
+</p>
+
+<p align="center">
+  <strong>The no-code software to train and deploy ML models, and eventually your AI SaaS</strong>
+</p>
 
 ## Overview
 **AI Studio** is a GitHub repository created by **Metric Coders**. It is a no-code software to create and train various machine learning (ML) models by configuring different hyperparameters through the UI. 
