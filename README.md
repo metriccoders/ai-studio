@@ -12,7 +12,7 @@
 The platform is designed to simplify the process of building and experimenting with ML models, making it accessible for users with varying levels of expertise in machine learning. This application is built using **Streamlit** to provide an interactive and user-friendly experience.
 
 The platform offers a **one-click deployment** zip file that contains everything you need to directly deploy the model as an API into your development and production environments.
-## Homepage UI
+## Homepage
 
 Here is how the webpage looks when pre-trained datasets are loaded
 ![Pre-trained Datasets](readme_images/home_page.png)
@@ -23,7 +23,7 @@ Here is how the homepage looks when a custom dataset is loaded
 
 ## Features
 ### Current Features
-- **Streamlit UI for Scikit-learn**: Users can easily create ML models using a graphical interface.
+- **Streamlit**: Users can easily create ML models using a graphical interface.
 - **Hyperparameter Tuning**: Adjust and experiment with different hyperparameters to optimize model performance.
 - **Preloaded Datasets**: Access to a variety of datasets provided by scikit-learn, facilitating immediate experimentation and learning.
 - **Model Export**: Functionality to export trained models for deployment and further use.
