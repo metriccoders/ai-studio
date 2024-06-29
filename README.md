@@ -1,7 +1,7 @@
 # AI Studio by Metric Coders
 
 ## Overview
-**AI Studio** is a GitHub repository created by **Metric Coders**. It provides a web-based user interface (UI) for the **scikit-learn** library, enabling users to create and train various machine learning (ML) models by configuring different hyperparameters through the UI. The platform is designed to simplify the process of building and experimenting with ML models, making it accessible for users with varying levels of expertise in machine learning. This application is built using **Streamlit** to provide an interactive and user-friendly experience.
+**AI Studio** is a GitHub repository created by **Metric Coders**. It is a no-code software to create and train various machine learning (ML) models by configuring different hyperparameters through the UI. The platform is designed to simplify the process of building and experimenting with ML models, making it accessible for users with varying levels of expertise in machine learning. This application is built using **Streamlit** to provide an interactive and user-friendly experience.
 
 ## Homepage UI
 
@@ -60,6 +60,19 @@ This will launch the AI Studio web UI. Open your web browser and navigate to the
 
 ### Evaluating a Model
 After training, AI Studio provides performance metrics and visualizations to help you evaluate the effectiveness of your model. Use these insights to refine your model by adjusting hyperparameters or selecting different algorithms.
+
+### Downloading the Trained Model
+The "**Download Model**" button allows you to instantly download the model to your local directory.
+
+### Downloading the Deployment Zip File
+The "**Download Deployment Zip**" button allows you to instantly download a zip file that contains everything you need to run the model, including the model itself. It contains:
+1. **backend_api.py**: This is full-fledged backend api written in fastapi that contains the complete code necessary to run the model in a development/production setup.
+2. **model.joblib**: This is the trained model available to be used instantly in the production environment. This model is used by **backend_api.py** in order to make predictions.
+3. **requirements.txt**: This is the requirements file required to run the backend_api.py correctly. The packages present in the requirements.txt file needs to installed in the following manner:
+
+```bash
+pip install -r requirements.txt
+```
 
 ### Loading Own Datasets
 The datasets should have headers and the column by the name 'target' should contain the output/result. A sample is given below:
