@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-  <strong>The no-code software to train and deploy ML models, and eventually your AI SaaS</strong>
+  <strong>The no-code software to train and deploy Large Language Models, including usual ML models, and eventually your AI SaaS</strong>
 </p>
 
 ## Overview
-**AI Studio** is a GitHub repository created by **Metric Coders**. It is a no-code software to create and train various machine learning (ML) models by configuring different hyperparameters through the UI. 
+**AI Studio** is a GitHub repository created by **Metric Coders**. It is a no-code software to create and train various Large Language Models by configuring different hyperparameters through the UI. 
 
 The platform is designed to simplify the process of building and experimenting with ML models, making it accessible for users with varying levels of expertise in machine learning. This application is built using **Streamlit** to provide an interactive and user-friendly experience.
 
@@ -84,7 +84,7 @@ pip install -r requirements.txt
 ```
 
 ### Large Language Models
-In the menu on the left, Large Language Models section allows you to train ML models. You can add as many layers as you need. 
+In the menu on the left, Large Language Models section allows you to train and fine-tune large models. You can add as many layers as you need. 
 Due to Streamlit cloud constraints for the demo purpose, the values are limited. In your local, you can change it to whatever you need depending on your system.
 
 The number of epochs have been limited to 10 and the batch_size is 16.
