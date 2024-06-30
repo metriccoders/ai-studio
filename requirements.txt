@@ -4,3 +4,5 @@ numpy
 scipy
 streamlit-lottie
 pandas
+keras
+tensorflow
