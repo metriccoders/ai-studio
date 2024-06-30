@@ -5,7 +5,7 @@ import numpy as np
 import io
 import sys
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 if 'widgets' not in st.session_state:
     st.session_state.widgets = []

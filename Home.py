@@ -100,7 +100,7 @@ from sklearn.linear_model._theil_sen import TheilSenRegressor
 from sklearn.compose._target import TransformedTargetRegressor
 from sklearn.linear_model._glm.glm import TweedieRegressor
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 requirements_txt_file = """
 fastapi
