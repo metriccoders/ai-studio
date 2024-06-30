@@ -4,5 +4,5 @@ numpy
 scipy
 streamlit-lottie
 pandas
-keras
-tensorflow
+keras==3.0.2
+tensorflow==2.16.0
