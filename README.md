@@ -87,6 +87,8 @@ pip install -r requirements.txt
 In the menu on the left, Large Language Models section allows you to train ML models. You can add as many layers as you need. 
 Due to Streamlit cloud constraints for the demo purpose, the values are limited. In your local, you can change it to whatever you need depending on your system.
 
+The number of pochs have been limited to 10 and the batch_size is 16.
+
 
 ### Loading Own Datasets
 The datasets should have headers and the column by the name 'target' should contain the output/result. A sample is given below:
