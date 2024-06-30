@@ -9,7 +9,7 @@
 ## Overview
 **AI Studio** is a GitHub repository created by **Metric Coders**. It is a no-code software to create and train various Large Language Models by configuring different hyperparameters through the UI. 
 
-The platform is designed to simplify the process of building and experimenting with ML models, making it accessible for users with varying levels of expertise in machine learning. This application is built using **Streamlit** to provide an interactive and user-friendly experience.
+The platform is designed to simplify the process of building and experimenting with LLMs, including ML models, making it accessible for users with varying levels of expertise in machine learning. This application is built using **Streamlit** to provide an interactive and user-friendly experience.
 
 The platform offers a **one-click deployment** zip file that contains everything you need to directly deploy the model as an API into your development and production environments.
 ## Homepage
