@@ -176,6 +176,7 @@ def main():
     st.markdown("<center><h1>Artificial Intelligence (AI) Studio</h1></center>", unsafe_allow_html=True)
     #st.lottie("https://lottie.host/f9ecc8cd-9a0e-49f5-bfbe-89bb59ca794b/Qnv20SfUVi.json", height=50, width=50, quality="high")
     st.markdown("<center><h4><b>By Metric Coders</b></h4></center>", unsafe_allow_html=True)
+    st.markdown("<center><h4><b>A No-Code Platform to train and deploy your Large Language Models</b></h4></center>", unsafe_allow_html=True)
     dataset = load_iris()
     clf = AdaBoostClassifier()
     regr = ARDRegression()

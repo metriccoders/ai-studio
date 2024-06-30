@@ -59,7 +59,8 @@ def main():
     st.markdown("<center><h1>Artificial Intelligence (AI) Studio</h1></center>", unsafe_allow_html=True)
     #st.lottie("https://lottie.host/f9ecc8cd-9a0e-49f5-bfbe-89bb59ca794b/Qnv20SfUVi.json", height=50, width=50, quality="high")
     st.markdown("<center><h4><b>By Metric Coders</b></h4></center>", unsafe_allow_html=True)
-
+    st.markdown("<center><h4><b>A No-Code Platform to train and deploy your Large Language Models</b></h4></center>",
+                unsafe_allow_html=True)
     num_of_samples = st.slider("Number of Samples", min_value=1000, max_value=20000, value=1000, step=100)
     num_of_features = st.slider("Number of Features", min_value=2, max_value=20, value=5, step=1)
     num_of_outputs = st.slider("Number of Outputs", min_value=1, max_value=num_of_features-1,value=num_of_features-1, step=1)
