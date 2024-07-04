@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>The no-code software to train and deploy Large Language Models, including usual ML models, and eventually your AI SaaS</strong>
+  <strong>The no-code software to train and deploy ML models and Large Language Models, and eventually your AI SaaS</strong>
 </p>
 
 ## Overview
