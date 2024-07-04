@@ -1,6 +1,7 @@
 import streamlit as st
 import joblib
 import zipfile
+import altair as alt
 #from streamlit_lottie import st_lottie
 from sklearn.datasets import load_iris, load_digits, load_wine, load_breast_cancer, load_diabetes, load_linnerud
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, BaggingClassifier, GradientBoostingClassifier, ExtraTreesClassifier
@@ -99,7 +100,7 @@ from sklearn.svm._classes import SVR
 from sklearn.linear_model._theil_sen import TheilSenRegressor
 from sklearn.compose._target import TransformedTargetRegressor
 from sklearn.linear_model._glm.glm import TweedieRegressor
-
+from algorithms.classifiers import *
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 requirements_txt_file = """
@@ -218,7 +219,6 @@ def main():
         X = dataset.data
         y = dataset.target
 
-
     if algo_type == "Classifiers":
         ml_algorithm = st.selectbox("Classifiers", ["AdaBoost Classifier",
                                                  "Bagging Classifier",
@@ -316,6 +316,42 @@ def main():
     col1, col2 = st.columns(2)
 
     col1.markdown("<center><h3>Hyperparameters</h3></center>" ,unsafe_allow_html=True)
+    col2.markdown("<center><h3>Data Visualization</h3></center>" ,unsafe_allow_html=True)
+    col2.dataframe(pd.DataFrame(X), use_container_width=True)
+
+    col2.markdown("<center><h3>Target Visualization</h3></center>", unsafe_allow_html=True)
+    col2.dataframe(pd.DataFrame(y), use_container_width=True)
+    if not own_dataset:
+        chart_data = pd.DataFrame(X, columns=dataset.feature_names)
+
+        col2.markdown("<center><h3>Scatter Chart Visualization</h3></center>", unsafe_allow_html=True)
+
+        col2.scatter_chart(chart_data)
+
+        col2.markdown("<center><h3>Bar Chart Visualization</h3></center>", unsafe_allow_html=True)
+
+        col2.bar_chart(chart_data)
+
+        col2.markdown("<center><h3>Line Chart Visualization</h3></center>", unsafe_allow_html=True)
+
+        col2.line_chart(chart_data)
+
+    else:
+        chart_data = pd.DataFrame(X, columns=y.unique())
+
+        col2.markdown("<center><h3>Scatter Chart Visualization</h3></center>", unsafe_allow_html=True)
+
+        col2.scatter_chart(chart_data)
+
+        col2.markdown("<center><h3>Bar Chart Visualization</h3></center>", unsafe_allow_html=True)
+
+        col2.bar_chart(chart_data)
+
+        col2.markdown("<center><h3>Line Chart Visualization</h3></center>", unsafe_allow_html=True)
+
+        col2.line_chart(chart_data)
+
+
     if ml_algorithm == "KNeighbors Classifier":
         n_neighbors = col1.slider("n_neighbors", min_value=1, max_value=100, value=5, step=1)
         weights = col1.selectbox("weights", ["uniform", "distance"], index=0)
@@ -324,23 +360,17 @@ def main():
         leaf_size = col1.slider("leaf_size", min_value=1, max_value=100, value=30, step=1)
         n_jobs = col1.slider("n_jobs", min_value=1, max_value=100, value=5, step=1)
 
-        clf = KNeighborsClassifier(
-            n_neighbors=n_neighbors,
-            weights=weights,
-            algorithm=algorithm,
-        )
+        clf = get_kneighbors(n_neighbors, weights, algorithm, leaf_size, n_jobs)
+
+
     elif ml_algorithm == "AdaBoost Classifier":
         n_estimators = col1.slider("n_estimators", min_value=1, max_value=2000, value=50, step=1)
         learning_rate = col1.slider("learning_rate", min_value=1.0, max_value=10.0, value=1.0, step=0.1)
         algorithm = col1.selectbox("algorithm", ["SAMME", "SAMME.R"], index=0)
         criterion = col1.selectbox("criterion", ["gini", "entropy", "log_loss"], placeholder="Choose a criterion")
         random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
-        clf = AdaBoostClassifier(
-            n_estimators=n_estimators,
-            learning_rate=learning_rate,
-            algorithm=algorithm,
-            random_state=random_state
-        )
+
+        clf = get_adaboost(n_estimators, learning_rate, algorithm, criterion, random_state)
 
     elif ml_algorithm == "Bagging Classifier":
         n_estimators = col1.slider("n_estimators", min_value=1, max_value=2000, value=10, step=1)
@@ -353,7 +383,7 @@ def main():
         n_jobs = col1.slider("n_jobs", min_value=1, max_value=10, value=1, step=1)
         random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
 
-        clf = BaggingClassifier(
+        clf = get_bagging(
             n_estimators=n_estimators,
             max_samples=max_samples,
             max_features=max_features,
@@ -371,7 +401,7 @@ def main():
         binarize = col1.slider("binarize", min_value=0.0, max_value=1.0, value=0.0, step=0.1)
         fit_prior = col1.selectbox("fit_prior", [True, False], index=0)
 
-        clf = BernoulliNB(
+        clf = get_bernoulli(
             alpha=alpha,
             force_alpha=force_alpha,
             binarize=binarize,
@@ -382,7 +412,7 @@ def main():
         method = col1.selectbox("method", ["sigmoid", "istonic"], index=0)
         cv = col1.slider("cv", min_value=2, max_value=10, value=2, step=1)
         n_jobs = col1.slider("n_jobs", min_value=1, max_value=10, value=5, step=1)
-        clf = CalibratedClassifierCV(
+        clf = get_calibrated_cv(
             method=method,
             cv=cv,
             n_jobs=n_jobs
@@ -402,7 +432,7 @@ def main():
         max_leaf_nodes = col1.slider("max_leaf_nodes", min_value=2, max_value=100, value=2, step=1)
         min_impurity_decrease = col1.slider("min_impurity_decrease", min_value=0.0, max_value=3.0, value=0.0, step=0.1)
 
-        clf = DecisionTreeClassifier(
+        clf = get_decision_tree(
             criterion=criterion,
             splitter=splitter,
             max_depth=max_depth,
@@ -432,7 +462,7 @@ def main():
         n_jobs = col1.slider("slider", min_value=1, max_value=10, value=1, step=1)
         random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
 
-        clf = ExtraTreesClassifier(
+        clf = get_extra_trees(
             n_estimators=n_estimators,
             criterion=criterion,
             max_depth=max_depth,
@@ -466,7 +496,7 @@ def main():
         n_jobs = col1.slider("slider", min_value=1, max_value=10, value=1, step=1)
         random_state = col1.slider("random_state", min_value=1, max_value=100, value=42, step=1)
 
-        clf = GradientBoostingClassifier(
+        clf = get_gradient_boosting(
             criterion=criterion,
             n_estimators=n_estimators,
             max_depth=max_depth,
@@ -480,20 +510,6 @@ def main():
             random_state=random_state
         )
 
-    elif ml_algorithm == "KNeighbors Classifier":
-        n_neighbors = col1.slider("n_neighbors", min_value=1, max_value=100, value=5, step=1)
-        weights = col1.selectbox("weights", ["uniform", "distance"], index=0)
-        algorithm = col1.selectbox("algorithm", ["auto", "ball_tree", "kd_tree", "brute"], index=0)
-
-        leaf_size = col1.slider("leaf_size", min_value=1, max_value=100, value=30, step=1)
-        n_jobs = col1.slider("n_jobs", min_value=1, max_value=100, value=5, step=1)
-
-        clf = KNeighborsClassifier(
-            n_neighbors=n_neighbors,
-            weights=weights,
-            algorithm=algorithm,
-
-        )
 
     elif ml_algorithm == "Random Forest Classifier":
 
@@ -510,7 +526,7 @@ def main():
         bootstrap = col1.checkbox("bootstrap", True)
         n_jobs = col1.slider("n_jobs", min_value=5, max_value=100, value=5, step=1)
 
-        clf = RandomForestClassifier(
+        clf = get_random_forest(
             n_estimators=n_estimators,
             criterion=criterion,
             max_depth=max_depth,
@@ -1568,43 +1584,43 @@ def main():
         y_pred = clf.predict(X_test)
 
 
-        col2.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
-        col2.download_button(
+        col1.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
+        col1.download_button(
             label="Download Model",
             data = model_buffer,
             file_name="model.joblib",
             mime="application/octet-stream",
             use_container_width=True
         )
-        col2.download_button(
+        col1.download_button(
             label="Download Deployment Zip",
             data=deployment_zip_buffer,
             file_name="deployment.zip",
             mime="application/zip",
             use_container_width=True
         )
-        col2.markdown(f"<b>Accuracy:</b> {accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Precision - Micro:</b> {precision_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Recall - Micro: </b> {recall_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>F1 Score - Micro: </b> {f1_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Precision - Macro:</b> {precision_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Recall - Macro:</b> {recall_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>F1 Score - Macro:</b> {f1_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Precision - Weighted: </b> {precision_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Recall - Weighted:</b> {recall_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>F1 Score - Weighted: </b> {f1_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Classification Report:</b> {classification_report(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Accuracy:</b> {accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Precision - Micro:</b> {precision_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Recall - Micro: </b> {recall_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>F1 Score - Micro: </b> {f1_score(y_test, y_pred, average='micro')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Precision - Macro:</b> {precision_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Recall - Macro:</b> {recall_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>F1 Score - Macro:</b> {f1_score(y_test, y_pred, average='macro')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Precision - Weighted: </b> {precision_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Recall - Weighted:</b> {recall_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>F1 Score - Weighted: </b> {f1_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Classification Report:</b> {classification_report(y_test, y_pred)}", unsafe_allow_html=True)
         #col2.text(f"ROC AUC Score - OVR: {roc_auc_score(y_test, y_pred, multi_class='ovr')}")
         #col2.text(f"ROC AUC Score - OVO: {roc_auc_score(y_test, y_pred, multi_class='ovo')}")
-        col2.markdown(f"<b>Confusion Matrix:</b> {confusion_matrix(y_test, y_pred)}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Hamming Loss: </b> {hamming_loss(y_test, y_pred)}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Jaccard Similarity Score: </b> {jaccard_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Confusion Matrix:</b> {confusion_matrix(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Hamming Loss: </b> {hamming_loss(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Jaccard Similarity Score: </b> {jaccard_score(y_test, y_pred, average='weighted')}", unsafe_allow_html=True)
         #col2.text(f"Log Loss: {log_loss(y_test, y_pred)}")
-        col2.markdown(f"<b>Matthews Correlation Coefficient: </b> {matthews_corrcoef(y_test, y_pred)}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Balanced Accuracy:</b> {balanced_accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Matthews Correlation Coefficient: </b> {matthews_corrcoef(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Balanced Accuracy:</b> {balanced_accuracy_score(y_test, y_pred)}", unsafe_allow_html=True)
         #col2.text(f"Precision-Recall Curve: {precision_recall_curve(y_test, y_pred)}")
         #col2.text(f"ROC Curve: {roc_curve(y_test, y_pred)}")
-        col2.markdown(f"<b>Zero-One Loss:</b> {zero_one_loss(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Zero-One Loss:</b> {zero_one_loss(y_test, y_pred)}", unsafe_allow_html=True)
 
 
     elif X is not None and y is not None and algo_type == "Regressors":
@@ -1621,8 +1637,8 @@ def main():
         deployment_zip_buffer = create_zip(model_buffer=model_buffer)
         y_pred = regr.predict(X_test_scaled)
 
-        col2.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
-        col2.download_button(
+        col1.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
+        col1.download_button(
             label="Download Model",
             data=model_buffer,
             file_name="model.joblib",
@@ -1630,23 +1646,23 @@ def main():
             use_container_width=True
         )
 
-        col2.download_button(
+        col1.download_button(
             label="Download Deployment Zip",
             data=deployment_zip_buffer,
             file_name="deployment.zip",
             mime="application/zip",
             use_container_width=True
         )
-        col2.markdown(f"<b>Mean Absolute Error:</b> {mean_absolute_error(y_test, y_pred)}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Mean Squared Error:</b> {mean_squared_error(y_test, y_pred)}",
+        col1.markdown(f"<b>Mean Absolute Error:</b> {mean_absolute_error(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Mean Squared Error:</b> {mean_squared_error(y_test, y_pred)}",
                       unsafe_allow_html=True)
-        col2.markdown(f"<b>Mean Squared Error (Squared = False): </b> {mean_squared_error(y_test, y_pred, squared=False)}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Mean Squared Log Error: </b> {mean_squared_log_error(y_test, y_pred)}", unsafe_allow_html=True)
-        col2.markdown(f"<b>Median Absolute Error:</b> {median_absolute_error(y_test, y_pred)}",
+        col1.markdown(f"<b>Mean Squared Error (Squared = False): </b> {mean_squared_error(y_test, y_pred, squared=False)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Mean Squared Log Error: </b> {mean_squared_log_error(y_test, y_pred)}", unsafe_allow_html=True)
+        col1.markdown(f"<b>Median Absolute Error:</b> {median_absolute_error(y_test, y_pred)}",
                       unsafe_allow_html=True)
-        col2.markdown(f"<b>R2 Score:</b> {r2_score(y_test, y_pred)}",
+        col1.markdown(f"<b>R2 Score:</b> {r2_score(y_test, y_pred)}",
                       unsafe_allow_html=True)
-        col2.markdown(f"<b>Explained Variance Score:</b> {explained_variance_score(y_test, y_pred)}",
+        col1.markdown(f"<b>Explained Variance Score:</b> {explained_variance_score(y_test, y_pred)}",
                       unsafe_allow_html=True)
 
 
