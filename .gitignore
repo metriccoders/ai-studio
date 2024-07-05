@@ -165,3 +165,5 @@ yet_to_add/
 .vercel
 
 Dockerfile
+
+#export DOCKER_DEFAULT_PLATFORM=linux/amd64

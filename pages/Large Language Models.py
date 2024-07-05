@@ -3,10 +3,10 @@ import io
 import sys
 
 import re
-from sklearn.model_selection import train_test_split
-import tensorflow as tf
-from transformers import TFAutoModelForSequenceClassification, AutoTokenizer
-from datasets import load_dataset
+#from sklearn.model_selection import train_test_split
+#import tensorflow as tf
+#from transformers import TFAutoModelForSequenceClassification, AutoTokenizer
+#from datasets import load_dataset
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 #

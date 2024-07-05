@@ -1,0 +1,12 @@
+streamlit
+scikit-learn
+numpy
+scipy
+streamlit-lottie
+pandas
+keras==3.0.5
+tensorflow==2.16.2
+openai==1.7.2
+langchain-openai==0.0.2
+langchainhub==0.1.14
+python-dotenv

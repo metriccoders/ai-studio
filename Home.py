@@ -1,6 +1,7 @@
 import streamlit as st
 import joblib
 import zipfile
+import time
 import altair as alt
 #from streamlit_lottie import st_lottie
 from sklearn.datasets import load_iris, load_digits, load_wine, load_breast_cancer, load_diabetes, load_linnerud
@@ -1583,7 +1584,6 @@ def main():
         deployment_zip_buffer = create_zip(model_buffer=model_buffer)
         y_pred = clf.predict(X_test)
 
-
         col1.markdown("<center><h3>Metrics</h3></center>", unsafe_allow_html=True)
         col1.download_button(
             label="Download Model",
@@ -1621,6 +1621,8 @@ def main():
         #col2.text(f"Precision-Recall Curve: {precision_recall_curve(y_test, y_pred)}")
         #col2.text(f"ROC Curve: {roc_curve(y_test, y_pred)}")
         col1.markdown(f"<b>Zero-One Loss:</b> {zero_one_loss(y_test, y_pred)}", unsafe_allow_html=True)
+        st.toast("Yay!! Model prediction is complete!!", icon='🎉')
+        time.sleep(.5)
 
 
     elif X is not None and y is not None and algo_type == "Regressors":
